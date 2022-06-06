@@ -1,0 +1,30 @@
+### Create One Event
+POST http://localhost:3000/events
+content-type: application/json
+
+{
+  "name": "first event",
+  "description": "fun",
+  "when": "12/12/2012",
+  "address": "jurong"
+}
+
+### Find One Event
+GET http://localhost:3000/events/1
+
+### Find All Events
+GET http://localhost:3000/events
+
+### Update Event
+PATCH http://localhost:3000/events/1
+content-type: application/json
+
+{
+  "name": "updated first event",
+  "description": "fun",
+  "when": "12/12/2012",
+  "address": "jurong"
+}
+
+### Delete Event
+DELETE http://localhost:3000/events/1

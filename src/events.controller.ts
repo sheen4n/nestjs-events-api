@@ -17,7 +17,7 @@ export class EventsController {
   private events: Event[] = [];
 
   @Get()
-  findAll () {
+  findAll (): Event[] {
     return this.events;
   }
 
@@ -34,7 +34,7 @@ export class EventsController {
       id: this.events.length + 1,
     };
     this.events.push(event);
-    return event;
+    return event as Event;
   }
 
   @Patch(':id')
