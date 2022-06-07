@@ -5,14 +5,18 @@ import {AppService} from './app.service';
 import {EventsController} from './events.controller';
 
 @Module({
-  imports: [TypeOrmModule.forRoot({
-    type: 'postgres',
-    host: '127.0.0.1',
-    port: 5432,
-    username: 'postgres',
-    password: 'example',
-    database: 'nest-events'
-  })],
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: '127.0.0.1',
+      port: 3306,
+      username: 'mysql',
+      password: 'example',
+      database: 'nest-events',
+      entities: [Event],
+      synchronize: true
+    }),
+    TypeOrmModule.forFeature([Event])],
   controllers: [AppController, EventsController],
   providers: [AppService],
 })
