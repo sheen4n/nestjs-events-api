@@ -60,7 +60,7 @@ export class EventsController {
 
   @Delete(':id')
   @HttpCode(204)
-  async remove (@Param('id') id) {
+  async remove (@Param('id') id: string) {
     const event = await this.repository.findOne(id);
     await this.repository.remove(event);
   }
