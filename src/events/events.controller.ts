@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, HttpCode, Logger, Param, ParseIntPipe, Patch, Post} from "@nestjs/common";
+import {Body, Controller, Delete, Get, HttpCode, Logger, NotFoundException, Param, ParseIntPipe, Patch, Post} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Like, MoreThan, Repository} from "typeorm";
 import {Event} from '../events/event.entity';
@@ -40,10 +40,12 @@ export class EventsController {
   }
 
   @Get(':id')
-  findOne (@Param('id', ParseIntPipe) id: number) {
+  async findOne (@Param('id', ParseIntPipe) id: number) {
     // @ts-ignore
     // console.log(typeof id);
-    return this.repository.findOne(id);
+    const event = await this.repository.findOne(id);
+    if (!event) throw new NotFoundException();
+    return event;
   }
 
   // You can also use the @UsePipes decorator to enable pipes.
@@ -77,6 +79,7 @@ export class EventsController {
   @HttpCode(204)
   async remove (@Param('id') id) {
     const event = await this.repository.findOne(id);
+    if (!event) throw new NotFoundException();
     await this.repository.remove(event);
   }
 }
