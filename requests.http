@@ -34,6 +34,16 @@ DELETE http://localhost:3000/events/1
 
 GET http://localhost:3000/events/practice
 
-### Practice
+### Practice 2
 
 GET http://localhost:3000/events/practice2
+
+
+### Practice 3
+
+GET http://localhost:3000/events/practice3
+
+
+### Practice 4
+
+GET http://localhost:3000/events/practice4

@@ -43,12 +43,36 @@ export class EventsController {
   }
 
   @Get('practice2')
-  practice2 () {
+  async practice2 () {
     return this.repository.findOne(1
       ,
       // {loadEagerRelations: false},
       {relations: ['attendees']}
     );
+  }
+
+  @Get('practice3')
+  async practice3 () {
+    const event = await this.repository.findOne(1);
+    const attendee = new Attendee();
+    attendee.name = 'Jerry';
+    attendee.event = event;
+
+    await this.attendeeRepository.save(attendee);
+    return event;
+  }
+
+  @Get('practice4')
+  async practice4 () {
+    const event = new Event();
+    event.id = 1;
+
+    const attendee = new Attendee();
+    attendee.name = 'Tom';
+    attendee.event = event;
+
+    await this.attendeeRepository.save(attendee);
+    return event;
   }
 
   @Get(':id')
