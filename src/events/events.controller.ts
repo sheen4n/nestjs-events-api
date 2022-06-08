@@ -39,6 +39,15 @@ export class EventsController {
     });
   }
 
+  @Get('practice2')
+  practice2 () {
+    return this.repository.findOne(1
+      ,
+      // {loadEagerRelations: false},
+      {relations: ['attendees']}
+    );
+  }
+
   @Get(':id')
   async findOne (@Param('id', ParseIntPipe) id: number) {
     // @ts-ignore

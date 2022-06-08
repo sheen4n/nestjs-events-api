@@ -18,6 +18,8 @@ export class Event {
   @Column()
   address: string;
 
-  @OneToMany((): typeof Attendee => Attendee, (attendee): Event => attendee.event)
+  @OneToMany((): typeof Attendee => Attendee, (attendee): Event => attendee.event,
+    // {eager: true}
+  )
   attendees: Attendee[];
 }
