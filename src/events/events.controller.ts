@@ -75,6 +75,22 @@ export class EventsController {
     return event;
   }
 
+  @Get('practice5')
+  async practice5 () {
+    const event = await this.repository.findOne(1, {relations: ['attendees']});
+
+    const attendee = new Attendee();
+    attendee.name = 'Tom';
+    // @ts-ignore
+    // attendee.event = event;
+
+    event.attendees.push(attendee);
+    // @ts-ignore
+    // await this.attendeeRepository.save(attendee);
+    await this.repository.save(event);
+    return event;
+  }
+
   @Get(':id')
   async findOne (@Param('id', ParseIntPipe) id: number) {
     // @ts-ignore

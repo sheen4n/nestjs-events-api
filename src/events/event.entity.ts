@@ -20,6 +20,8 @@ export class Event {
 
   @OneToMany((): typeof Attendee => Attendee, (attendee): Event => attendee.event,
     // {eager: true}
+    // {cascade: ["insert", "update"]}
+    {cascade: true}
   )
   attendees: Attendee[];
 }
