@@ -1,5 +1,5 @@
-import {Expose} from "class-transformer";
-import {SelectQueryBuilder} from "typeorm";
+import { Expose } from "class-transformer";
+import { SelectQueryBuilder } from "typeorm";
 
 export interface PaginateOptions {
   limit: number;
@@ -8,7 +8,7 @@ export interface PaginateOptions {
 }
 
 export class PaginationResult<T> {
-  constructor (partial: Partial<PaginationResult<T>>) {
+  constructor(partial: Partial<PaginationResult<T>>) {
     Object.assign(this, partial);
   }
 
@@ -24,7 +24,7 @@ export class PaginationResult<T> {
   data: T[];
 }
 
-export async function paginate<T> (
+export async function paginate<T>(
   qb: SelectQueryBuilder<T>,
   options: PaginateOptions = {
     limit: 10,
@@ -41,5 +41,5 @@ export async function paginate<T> (
     limit: options.limit,
     total: options.total ? await qb.getCount() : null,
     data
-  });
+  })
 }

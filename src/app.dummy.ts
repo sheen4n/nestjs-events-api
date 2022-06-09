@@ -1,5 +1,5 @@
 export class AppDummy {
-  public dummy (): string {
+  public dummy(): string {
     return 'dummy';
   }
 }
