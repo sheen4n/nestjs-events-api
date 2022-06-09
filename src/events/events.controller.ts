@@ -4,6 +4,7 @@ import {Like, MoreThan, Repository} from "typeorm";
 import {Attendee} from "../attendee.entity";
 import {Event} from '../events/event.entity';
 import {CreateEventDto} from "./create-event.dto";
+import {EventsService} from "./events.service";
 import {UpdateEventDto} from "./update-event.dto";
 
 @Controller('/events')
@@ -14,7 +15,8 @@ export class EventsController {
     @InjectRepository(Event)
     private readonly repository: Repository<Event>,
     @InjectRepository(Attendee)
-    private readonly attendeeRepository: Repository<Attendee>
+    private readonly attendeeRepository: Repository<Attendee>,
+    private readonly eventsService: EventsService
   ) {}
 
   @Get()
@@ -91,11 +93,20 @@ export class EventsController {
     return event;
   }
 
+  @Get('QueryBuilder')
+  async getQueryBuilderPractice () {
+    return this.repository.createQueryBuilder('e')
+      .select(['e.id', 'e.name'])
+      .orderBy('e.id', 'ASC')
+      .take(3)
+      .getMany();
+  }
+
   @Get(':id')
   async findOne (@Param('id', ParseIntPipe) id: number) {
     // @ts-ignore
     // console.log(typeof id);
-    const event = await this.repository.findOne(id);
+    const event = await this.eventsService.getEvent(id);
     if (!event) throw new NotFoundException();
     return event;
   }

@@ -56,3 +56,6 @@ GET http://localhost:3000/events/practice5
 ### School Create
 
 POST http://localhost:3000/school/create
+
+### Get Query Builder Event
+GET http://localhost:3000/events/QueryBuilder
