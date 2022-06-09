@@ -65,3 +65,10 @@ POST http://localhost:3000/school/create
 
 ### Get Query Builder Event
 GET http://localhost:3000/events/QueryBuilder
+
+
+### Update all with query builder
+PATCH http://localhost:3000/school/update
+
+### RelationQueryBuilder
+POST http://localhost:3000/school/create2

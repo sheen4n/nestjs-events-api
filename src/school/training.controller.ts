@@ -1,4 +1,4 @@
-import {Controller, Post} from "@nestjs/common";
+import {Controller, Patch, Post} from "@nestjs/common";
 import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
 import {Subject} from './subject.entity';
@@ -40,5 +40,27 @@ export class TrainingController {
     subject.teachers = subject.teachers.filter(teacher => teacher.id !== 2);
 
     await this.subjectRepository.save(subject);
+  }
+
+  @Patch('/update')
+  public updateAll () {
+    this.subjectRepository.createQueryBuilder('s')
+      .update()
+      .set({name: "Confidential"})
+      .execute();
+  }
+
+  @Post('/create2')
+  public async savingRelation2 () {
+    const subject = await this.subjectRepository.findOne(2);
+
+    const teacher1 = await this.teacherRepository.findOne(5);
+    const teacher2 = await this.teacherRepository.findOne(6);
+
+    return this.subjectRepository
+      .createQueryBuilder()
+      .relation(Subject, 'teachers')
+      .of(subject)
+      .add([teacher1, teacher2]);
   }
 }
