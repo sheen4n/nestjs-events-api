@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, HttpCode, Logger, NotFoundException, Param, ParseIntPipe, Patch, Post, Query, UsePipes, ValidationPipe} from "@nestjs/common";
+import {Body, Controller, Delete, Get, HttpCode, Logger, NotFoundException, Param, ParseIntPipe, Patch, Post, Query, UseGuards, UsePipes, ValidationPipe} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Like, MoreThan, Repository} from "typeorm";
 import {Attendee} from "../attendee.entity";
@@ -7,6 +7,9 @@ import {CreateEventDto} from "./inputs/create-event.dto";
 import {EventsService} from "./events.service";
 import {UpdateEventDto} from "./inputs/update-event.dto";
 import {ListEvents} from "./inputs/list.events";
+import {CurrentUser} from "../auth/current-user.decorator";
+import {AuthGuardJwt} from "../auth/auth-guard.jwt";
+import {User} from "../auth/user.entity";
 
 @Controller('/events')
 export class EventsController {
@@ -121,11 +124,12 @@ export class EventsController {
   // It can be done per method, or for every method when you
   // add it at the controller level.
   @Post()
-  create (@Body() input: CreateEventDto) {
-    return this.repository.save({
-      ...input,
-      when: new Date(input.when)
-    });
+  @UseGuards(AuthGuardJwt)
+  create (
+    @Body() input: CreateEventDto,
+    @CurrentUser() user: User
+  ) {
+    return this.eventsService.createEvent(input, user);
   }
 
   // Create new ValidationPipe to specify validation group inside @Body

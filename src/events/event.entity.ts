@@ -1,5 +1,6 @@
+import {User} from "src/auth/user.entity";
+import {Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {Attendee} from "../attendee.entity";
-import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 
 @Entity()
 export class Event {
@@ -18,12 +19,16 @@ export class Event {
   @Column()
   address: string;
 
-  @OneToMany((): typeof Attendee => Attendee, (attendee): Event => attendee.event,
-    // {eager: true}
-    // {cascade: ["insert", "update"]}
-    {cascade: true}
-  )
+  @OneToMany(() => Attendee, (attendee) => attendee.event, {
+    cascade: true
+  })
   attendees: Attendee[];
+
+  @ManyToOne(() => User, (user) => user.organized)
+  organizer: User;
+
+  @Column({nullable: true})
+  organizerId: number;
 
   attendeeCount?: number;
   attendeeRejected?: number;

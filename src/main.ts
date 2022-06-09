@@ -7,7 +7,9 @@ async function bootstrap () {
     // logger: ['error', 'warn', 'debug']
   });
   // Remove line below to enable local ValidationPipe settings
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({
+    transform: true
+  }));
   await app.listen(3000);
 }
 bootstrap();

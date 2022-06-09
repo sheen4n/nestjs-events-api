@@ -1,13 +1,17 @@
+### HELLO WORLD
+GET http://localhost:3000
+
 ### Create One Event
 POST http://localhost:3000/events
 content-type: application/json
 
 {
   "name": "first event",
-  "description": "fun",
-  "when": "12/12/2012",
+  "description": "funer",
+  "when": "2011-10-05T14:48:00.000Z",
   "address": "jurong"
 }
+
 
 ### Find One Event
 GET http://localhost:3000/events/2
@@ -81,4 +85,17 @@ Content-Type: "application/json"
 {
   "username": "test",
   "password": "test"
+}
+
+### Register
+POST http://localhost:3000/users
+Content-Type: "application/json"
+
+{
+  "username": "jane112",
+  "password": "testtest",
+  "retypedPassword": "testtest",
+  "firstName": "test",
+  "lastName": "test",
+  "email": "abcdefg@test.com"
 }
