@@ -72,3 +72,13 @@ PATCH http://localhost:3000/school/update
 
 ### RelationQueryBuilder
 POST http://localhost:3000/school/create2
+
+
+### Login
+POST http://localhost:3000/auth/login
+Content-Type: "application/json"
+
+{
+  "username": "test",
+  "password": "test"
+}

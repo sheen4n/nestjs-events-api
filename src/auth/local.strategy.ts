@@ -6,7 +6,7 @@ import {Repository} from "typeorm";
 import {User} from "./user.entity";
 
 @Injectable()
-export class LocalStrategy extends PassportStrategy(Strategy) {
+export class LocalStrategy extends PassportStrategy(Strategy, 'local') {
   private readonly logger = new Logger(LocalStrategy.name);
 
   constructor (
@@ -19,6 +19,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   public async validate (
     username: string, password: string
   ): Promise<any> {
+    console.log("test");
     const user = await this.userRepository.findOne({
       where: {username}
     });
