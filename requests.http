@@ -10,7 +10,7 @@ content-type: application/json
 }
 
 ### Find One Event
-GET http://localhost:3000/events/1
+GET http://localhost:3000/events/2
 
 ### Find All Events
 GET http://localhost:3000/events
