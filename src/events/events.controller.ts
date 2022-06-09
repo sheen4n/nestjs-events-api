@@ -1,23 +1,25 @@
-import { Body, Controller, Delete, ForbiddenException, Get, HttpCode, Logger, NotFoundException, Param, ParseIntPipe, Patch, Post, Query, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
-import { AuthGuardJwt } from "src/auth/auth-guard.jwt";
-import { CurrentUser } from "src/auth/current-user.decorator";
-import { User } from "src/auth/user.entity";
-import { EventsService } from "./events.service";
-import { CreateEventDto } from './input/create-event.dto';
-import { ListEvents } from "./input/list.events";
-import { UpdateEventDto } from "./input/update-event.dto";
+import {Body, ClassSerializerInterceptor, Controller, Delete, ForbiddenException, Get, HttpCode, Logger, NotFoundException, Param, ParseIntPipe, Patch, Post, Query, SerializeOptions, UseGuards, UseInterceptors, UsePipes, ValidationPipe} from "@nestjs/common";
+import {AuthGuardJwt} from "src/auth/auth-guard.jwt";
+import {CurrentUser} from "src/auth/current-user.decorator";
+import {User} from "src/auth/user.entity";
+import {EventsService} from "./events.service";
+import {CreateEventDto} from './input/create-event.dto';
+import {ListEvents} from "./input/list.events";
+import {UpdateEventDto} from "./input/update-event.dto";
 
 @Controller('/events')
+@SerializeOptions({strategy: 'excludeAll'})
 export class EventsController {
   private readonly logger = new Logger(EventsController.name);
 
-  constructor(
+  constructor (
     private readonly eventsService: EventsService
-  ) { }
+  ) {}
 
   @Get()
-  @UsePipes(new ValidationPipe({ transform: true }))
-  async findAll(@Query() filter: ListEvents) {
+  @UsePipes(new ValidationPipe({transform: true}))
+  @UseInterceptors(ClassSerializerInterceptor)
+  async findAll (@Query() filter: ListEvents) {
     const events = await this.eventsService
       .getEventsWithAttendeeCountFilteredPaginated(
         filter,
@@ -80,7 +82,8 @@ export class EventsController {
   // }
 
   @Get(':id')
-  async findOne(@Param('id', ParseIntPipe) id: number) {
+  @UseInterceptors(ClassSerializerInterceptor)
+  async findOne (@Param('id', ParseIntPipe) id: number) {
     // console.log(typeof id);
     const event = await this.eventsService.getEvent(id);
 
@@ -96,7 +99,8 @@ export class EventsController {
   // add it at the controller level.
   @Post()
   @UseGuards(AuthGuardJwt)
-  async create(
+  @UseInterceptors(ClassSerializerInterceptor)
+  async create (
     @Body() input: CreateEventDto,
     @CurrentUser() user: User
   ) {
@@ -107,7 +111,8 @@ export class EventsController {
   // new ValidationPipe({ groups: ['update'] })
   @Patch(':id')
   @UseGuards(AuthGuardJwt)
-  async update(
+  @UseInterceptors(ClassSerializerInterceptor)
+  async update (
     @Param('id') id,
     @Body() input: UpdateEventDto,
     @CurrentUser() user: User
@@ -130,7 +135,7 @@ export class EventsController {
   @Delete(':id')
   @UseGuards(AuthGuardJwt)
   @HttpCode(204)
-  async remove(
+  async remove (
     @Param('id') id,
     @CurrentUser() user: User
   ) {
