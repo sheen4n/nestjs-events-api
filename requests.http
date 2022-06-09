@@ -15,6 +15,12 @@ GET http://localhost:3000/events/2
 ### Find All Events
 GET http://localhost:3000/events
 
+### Find All Events with filter
+GET http://localhost:3000/events?when=1
+
+### Find All Events
+GET http://localhost:3000/events
+
 ### Update Event
 PATCH http://localhost:3000/events/1
 content-type: application/json
